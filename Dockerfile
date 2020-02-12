@@ -29,6 +29,17 @@ RUN chown -R $USER:$USER $SERVER
 
 USER $USER
 RUN curl http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $HOME/steamcmd -xvz \
+    && mkdir -p $HOME/.steam/sdk32 \
+    && chown -R $USER:$USER $HOME/.steam \
+    && ln -s $HOME/steamcmd/linux32/steamclient.so $HOME/.steam/sdk32/steamclient.so \
     && $HOME/steamcmd/steamcmd.sh +runscript $SERVER/csgo_update.txt
 
+COPY run.sh $SERVER/run.sh
+
+ENV SRCDS_RCON_PASSWORD=my-super-password
+
 EXPOSE 27015 27015/udp 27005/udp 27020/udp
+
+WORKDIR $SERVER
+ENTRYPOINT ["./run.sh"]
+CMD ["-console" "-usercon" "+game_type" "0" "+game_mode" "1" "+mapgroup" "mg_active" "+map" "de_dust2", "+rcon_password", "$SRCDS_RCON_PASSWORD"]
