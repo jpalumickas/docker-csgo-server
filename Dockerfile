@@ -12,11 +12,10 @@ RUN apt-get -y update \
     && update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && dpkg-reconfigure --frontend=noninteractive locales \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && useradd $USER \
-    && mkdir $HOME \
+    && useradd -m $USER \
     && mkdir $HOME/steamcmd \
-    && chown -R $USER:$USER $HOME \
-    && mkdir $SERVER
+    && mkdir $SERVER \
+    && chown -R $USER:$USER $HOME
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
