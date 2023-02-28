@@ -1,4 +1,4 @@
 login anonymous
-force_install_dir /home/csgo/csgo-server
+force_install_dir /home/steam/csgo-server
 app_update 740
 quit
